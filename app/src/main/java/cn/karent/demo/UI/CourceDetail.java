@@ -3,7 +3,6 @@ package cn.karent.demo.UI;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 
