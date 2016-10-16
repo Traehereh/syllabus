@@ -2,11 +2,11 @@ package cn.karent.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.karent.demo.UI.AbsGridAdapter;
 import cn.karent.demo.UI.MyAdapter;
 
@@ -22,19 +22,30 @@ public class MainActivity extends AppCompatActivity {
 
     private AbsGridAdapter secondAdapter;
 
+    private List<String> dataList;
+
+    private ArrayAdapter<String> spinnerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cource);
         spinner = (Spinner)findViewById(R.id.switchWeek);
         detailCource = (GridView)findViewById(R.id.courceDetail);
+        ///////////////第一种方式创建Adapater
 //        List<String> list = init();
 //        adapter = new MyAdapter(this, list);
 //        detailCource.setAdapter(adapter);
+        ///////////////第二种方式创建Adapter
         fillStringArray();
         secondAdapter = new AbsGridAdapter(this);
         secondAdapter.setContent(contents, 6, 7);
         detailCource.setAdapter(secondAdapter);
+        //////////////创建Spinner数据
+        fillDataList();
+        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, dataList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
     }
 
     /**
@@ -130,6 +141,13 @@ public class MainActivity extends AppCompatActivity {
         contents[2][6] = "";
         contents[3][6] = "";
         contents[4][6] = "";
-        contents[5][6] = "";
+        contents[5][6] = "测试基础万盛道";
+    }
+
+    public void fillDataList() {
+        dataList = new ArrayList<>();
+        for(int i = 1; i < 21; i++) {
+            dataList.add("第" + i + "周");
+        }
     }
 }

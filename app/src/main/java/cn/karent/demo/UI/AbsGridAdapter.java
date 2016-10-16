@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import cn.karent.demo.R;
 
 /**
@@ -45,7 +47,7 @@ public class AbsGridAdapter extends BaseAdapter {
         return contents[row][column];
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if( convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.grib_item, null);
         }
@@ -82,6 +84,15 @@ public class AbsGridAdapter extends BaseAdapter {
                     textView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_18));
                     break;
             }
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int row = position / columnTotal;
+                    int column = position % columnTotal;
+                    String con = "当前选中的是" + contents[row][column] + "课";
+                    Toast.makeText(mContext, con, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         return convertView;
     }
