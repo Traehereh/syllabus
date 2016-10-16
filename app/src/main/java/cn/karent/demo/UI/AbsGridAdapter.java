@@ -7,34 +7,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import java.util.List;
 import cn.karent.demo.R;
 
 /**
- * Created by wan on 2016/10/13.
- * gridView的适配器
+ * Created by wan on 2016/10/16.
+ * GridView的适配器
  */
-public class MyAdapter extends BaseAdapter {
+public class AbsGridAdapter extends BaseAdapter {
 
     private Context mContext;
-    //保存内容的内部数组
-    private List<String> content;
 
-    public MyAdapter(Context context, List<String> list) {
+    private String[][] contents;
+
+    private int rowTotal;
+
+    private int columnTotal;
+
+    private int positionTotal;
+
+    public AbsGridAdapter(Context context) {
         this.mContext = context;
-        this.content = list;
     }
 
     public int getCount() {
-        return content.size();
-    }
-
-    public Object getItem(int position) {
-        return content.get(position);
+        return positionTotal;
     }
 
     public long getItemId(int position) {
         return position;
+    }
+
+    public Object getItem(int position) {
+        //求余得到二维索引
+        int column = position % columnTotal;
+        //求商得到二维索引
+        int row = position / columnTotal;
+        return contents[row][column];
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,7 +55,7 @@ public class MyAdapter extends BaseAdapter {
             textView.setText((String)getItem(position));
             textView.setTextColor(Color.WHITE);
             //变换颜色
-            int rand = position % 7;
+            int rand = position % columnTotal;
             switch( rand ) {
                 case 0:
                     textView.setBackground(mContext.getResources().getDrawable(R.drawable.grid_item_bg));
@@ -77,5 +85,16 @@ public class MyAdapter extends BaseAdapter {
         }
         return convertView;
     }
+
+    /**
+     * 设置内容、行数、列数
+     */
+    public void setContent(String[][] contents, int row, int column) {
+        this.contents = contents;
+        this.rowTotal = row;
+        this.columnTotal = column;
+        positionTotal = rowTotal * columnTotal;
+    }
+
 
 }
